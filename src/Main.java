@@ -1,16 +1,40 @@
+import java.util.Random;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+            MyHashTable<MyTestingClass, MyTestingClass.Student> table = new MyHashTable<>();
+            Random random = new Random();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+            for (int i = 0; i < 10000; i++) {
+                MyTestingClass key = new MyTestingClass(random.nextInt(1000));
+                MyTestingClass.Student value = new MyTestingClass.Student("Student " + i);
+                table.put(key, value);
+            }
+
+            MyHashTable.HashNode<MyTestingClass, MyTestingClass.Student>[] chainArray = table.getChainArray();
+            for (int i = 0; i < chainArray.length; i++) {
+                int count = 0;
+                MyHashTable.HashNode<MyTestingClass, MyTestingClass.Student> current = chainArray[i];
+                while (current != null) {
+                    count++;
+                    current = current.next;
+                }
+                System.out.println("Bucket " + i + ": " + count + " elements");
+            }
+
+            BST<Integer, String> bst = new BST<>();
+
+            for (int i = 0; i < 10000; i++) {
+                int key = random.nextInt(1000);
+                String value = "Value " + i;
+                bst.put(key, value);
+            }
+
+            System.out.println("Size of BST: " + bst.size());
+
+            for (Integer key : bst.iterator()) {
+                System.out.println("Key is " + key + " and value is " + bst.get(key));
+            }
         }
+
     }
-}
